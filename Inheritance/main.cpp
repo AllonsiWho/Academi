@@ -65,18 +65,18 @@ public:
 	}
 
 	//					Methods:
-	virtual void info()const
+	virtual std::ostream& info(std::ostream& os)const
 	{
-		cout << last_name << " " << first_name << " " << get_age() << endl;
+		return os << last_name << " " << first_name << " " << get_age() << endl;
 	}
 	
 
 };
-
 std::ostream& operator<<(std::ostream& os, const Human& obj)
 {
-	return os << obj.get_last_name() << " " << obj.get_first_name() << " " << obj.get_age() << endl;
+	return obj.info(os);
 }
+
 #define STUDENT_TAKE_PARAMETERS	const std::string& specialty, const std::string& group, double rating, double attendance
 #define STUDENT_GIVE_PARAMETERS	specialty, group, rating, attendance
 class Student : public Human
@@ -145,17 +145,13 @@ public:
 	{
 		cout << "SDestructor:\t" << this << endl;
 	}
-	void info()const
+	std::ostream& info(std::ostream& os)const
 	{
-		Human::info();
-		cout << specialty << " " << group << " " << rating << " " << attendance << endl;
+		
+		return Human::info(os) << " "<< specialty << " " << group << " " << rating << " " << attendance;
 	}
 };
-std::ostream& operator<<(std::ostream& os, const Student& obj)
-{
 
-	return os <<(Human&)obj<<" " << obj.get_specialty() << " " << obj.get_group() << " " << obj.get_rating() << " " << obj.get_attendance() << endl;
-}
 
 #define TEACHER_TAKE_PARAMETERS	const std::string& specialty, unsigned int experience
 class Teacher :public Human
@@ -192,16 +188,13 @@ public:
 		cout << "TDestructor:\t" << this << endl;
 	}
 
-	void info()const
+	std::ostream& info(std::ostream& os)const
 	{
-		Human::info();
-		cout << specialty << " " << experience << endl;
+		
+		return Human::info(os)<<" " << specialty << " " << experience << endl;
 	}
 };
-std::ostream& operator <<(std::ostream& os, const Teacher& obj)
-{
-	return os << (Human&)obj << " " << obj.get_specialty() << " " << obj.get_experience() << endl;
-}
+
 class Graduate :public Student
 {
 	std::string subject;
@@ -224,16 +217,12 @@ public:
 	{
 		cout << "GDestructor:\t" << this << endl;
 	}
-	void info()const
+	std::ostream& info(std::ostream& os)const
 	{
-		Student::info();
-		cout << subject << endl;
+		
+		return Student::info(os)<<" " << subject;
 	}
 };
-std::ostream& operator <<(std::ostream& os, const Graduate& obj)
-{
-	return os<<(Student&)obj<<" " << obj.get_subject() << endl;
-}
 
 
 void main()
@@ -254,11 +243,7 @@ void main()
 	{
 		
 		//RRTI-Runtime Type Information
-		cout << typeid(*group[i]).name() << ":\t";
-		//cout << *group[i] << endl;
-		if (typeid(*group[i]) == typeid(Student))cout << *dynamic_cast<Student*>(group[i]) << endl;
-		if (typeid(*group[i]) == typeid(Teacher))cout << *dynamic_cast<Teacher*>(group[i]) << endl;
-		if (typeid(*group[i]) == typeid(Graduate))cout << *dynamic_cast<Graduate*>(group[i]) << endl;
+		cout<<*group[i]<<endl;		
 		cout << "\n--------------------------------------------\n";
 	}
 
