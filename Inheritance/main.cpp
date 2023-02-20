@@ -232,7 +232,7 @@ public:
 };
 std::ostream& operator <<(std::ostream& os, const Graduate& obj)
 {
-	return os<<(Student)obj<<" " << obj.get_subject() << endl;
+	return os<<(Student&)obj<<" " << obj.get_subject() << endl;
 }
 
 
