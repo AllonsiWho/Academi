@@ -69,8 +69,6 @@ public:
 	{
 		cout << last_name << " " << first_name << " " << get_age() << endl;
 	}
-	
-
 };
 
 std::ostream& operator<<(std::ostream& os, const Human& obj)
